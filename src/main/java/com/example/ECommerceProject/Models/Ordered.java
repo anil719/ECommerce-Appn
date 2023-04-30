@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,8 @@ public class Ordered {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     int id;
+
+    @CreationTimestamp
     Date orderDate;
     String orderNum;
     int totalValue;

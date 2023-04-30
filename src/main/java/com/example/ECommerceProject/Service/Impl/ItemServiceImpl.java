@@ -27,35 +27,35 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     ItemRepository itemRepository;
+
     @Override
     public Item addItem(ItemRequestDto itemRequestDto) throws Exception {
         Customer customer;
-        try{
+        try {
             customer = customerRepository.findById(itemRequestDto.getCustomerId()).get();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new InvalidCustomerException("Customer Id is invalid");
         }
         Product product;
-        try{
+        try {
             product = productRepository.findById(itemRequestDto.getProductId()).get();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new InvalidProductException("Product doesnt Exist");
         }
 
         //check availability of product
-        if(itemRequestDto.getRequiredQuantity() > product.getQuantity() || product.getProductStatus() != ProductStatus.AVAILABLE)
+        if (itemRequestDto.getRequiredQuantity() > product.getQuantity() || product.getProductStatus() != ProductStatus.AVAILABLE)
             throw new Exception("Product out of Stock");
 
 
         Item item = ItemTransformer.ItemRequestDtoToItem(itemRequestDto);
+        System.out.println(customer.getCart().getItems().size());
         item.setCart(customer.getCart());
         item.setProduct(product);
         product.getItemList().add(item);
-        Product savedProduct = productRepository.save(product);
+        //  Product savedProduct = productRepository.save(product);
         //get saved item
-        int size = product.getItemList().size();
-        return savedProduct.getItemList().get(size-1);
+        //int size = product.getItemList().size();
+        return itemRepository.save(item);
     }
 }

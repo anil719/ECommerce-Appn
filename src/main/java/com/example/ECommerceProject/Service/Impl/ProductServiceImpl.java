@@ -5,6 +5,8 @@ import com.example.ECommerceProject.Dto.Request.ProductRequestDto;
 import com.example.ECommerceProject.Dto.Response.DeleteProductResponseDto;
 import com.example.ECommerceProject.Dto.Response.ProductResponseDto;
 import com.example.ECommerceProject.Exceptions.InvalidSellerException;
+import com.example.ECommerceProject.Models.Item;
+import com.example.ECommerceProject.Models.Ordered;
 import com.example.ECommerceProject.Models.Product;
 import com.example.ECommerceProject.Models.Seller;
 import com.example.ECommerceProject.Repository.ProductRepository;
@@ -199,5 +201,21 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.getCostlierProductInTheCategory(category);
 
         return ProductTransformer.productToProductResponseDto(product);
+    }
+
+    @Override
+    public void decreaseProductQuantity(Item item) throws Exception {
+
+            Product product = item.getProduct();
+            int quantity = item.getRequiredQuantity();
+            int currQntity = product.getQuantity();
+            if(quantity > currQntity){
+                throw new Exception("Out of stock");
+            }
+
+            product.setQuantity(currQntity-quantity);
+            if(product.getQuantity() == 0){
+                product.setProductStatus(ProductStatus.OUT_OF_STOCK);
+            }
     }
 }

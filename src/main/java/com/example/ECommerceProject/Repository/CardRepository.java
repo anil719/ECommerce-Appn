@@ -13,4 +13,6 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
 
     @Query(value = "select * from Card c where c.expiry_Date > :expiryDate", nativeQuery = true)
     List<Card> getCardsGreaterThanGivenExpiryDate(Date expiryDate);
+
+    Card findByCardNum(String cardNum);
 }
