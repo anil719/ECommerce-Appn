@@ -1,9 +1,8 @@
 package com.example.ECommerceProject.Service.Impl;
 
-import com.example.ECommerceProject.Controller.OrderResponseDto;
+import com.example.ECommerceProject.Dto.Response.OrderResponseDto;
 import com.example.ECommerceProject.Dto.Request.CheckOutCardRequestDto;
 import com.example.ECommerceProject.Dto.Response.CartResponseDto;
-import com.example.ECommerceProject.Dto.Response.CustomerResponseDto;
 import com.example.ECommerceProject.Dto.Response.ItemResponseDto;
 import com.example.ECommerceProject.Exceptions.InvalidCardException;
 import com.example.ECommerceProject.Exceptions.InvalidCustomerException;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CartServiceImpl implements CartService {

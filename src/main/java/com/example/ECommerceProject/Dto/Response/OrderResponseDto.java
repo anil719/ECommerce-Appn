@@ -1,4 +1,4 @@
-package com.example.ECommerceProject.Controller;
+package com.example.ECommerceProject.Dto.Response;
 
 import com.example.ECommerceProject.Dto.Response.ItemResponseDto;
 import lombok.*;
