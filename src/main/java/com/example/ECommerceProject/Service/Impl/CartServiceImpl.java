@@ -86,15 +86,16 @@ public class CartServiceImpl implements CartService {
             throw new InvalidCardException("Invalid Card!!!");
 
 
-        Cart cart = customer.getCart();
+        Cart cart = customer.getCart()  ;
         if(cart.getNoOfItems() == 0) throw new Exception("Cart is empty!!!");
 
 
         try {
             Ordered order = orderService.placeOrder(customer, card);    //this will throw exception if product goes out of stock
             customer.getOrderedList().add(order);
-            Ordered savedOrder = orderRepository.save(order);
             resetCart(cart);
+           // customerRepository.save(customer);
+            Ordered savedOrder = orderRepository.save(order);
 
             //prepare response dto
             OrderResponseDto orderResponseDto = new OrderResponseDto();
