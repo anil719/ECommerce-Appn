@@ -18,4 +18,15 @@ public class CardResponseDto {
     int cvv;
     Date expiryDate;
     CardType cardType;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @Builder
+    public static class UpdateCustomerResponseDto {
+
+        String mobile;
+        int age;
+    }
 }

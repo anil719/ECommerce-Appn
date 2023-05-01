@@ -1,10 +1,10 @@
 package com.example.ECommerceProject.Transformer;
 
 import com.example.ECommerceProject.Dto.Request.CustomerRequestDto;
-import com.example.ECommerceProject.Dto.Response.CustomerResponseDto;
+import com.example.ECommerceProject.Dto.Request.UpdateCustomerRequestDto;
+import com.example.ECommerceProject.Dto.Response.*;
 import com.example.ECommerceProject.Models.Customer;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -30,4 +30,28 @@ public class CustomerTransformer {
                 .mobile(customer.getMobile())
                 .message("Hi!" + customer.getName() +" Welcome TO Ecommerce!!").build();
     }
+
+    public static CustomerResponseDTO2 customerToCustomerResponseDTO2(Customer customer){
+        return CustomerResponseDTO2.builder()
+                .name(customer.getName())
+                .mobile(customer.getMobile())
+                .age(customer.getAge())
+                .email(customer.getEmail())
+                .address(customer.getAddress()).build();
+    }
+
+    public static DeleteCustomerResponseDto customerToDeleteCustomerResponseDto(Customer customer){
+        return DeleteCustomerResponseDto.builder()
+                .name(customer.getName())
+                .mobile(customer.getMobile())
+                .message("Customer Deleted Successfully").build();
+    }
+
+    public static UpdateCustomerResponseDto customerToResponse(Customer customer){
+        return UpdateCustomerResponseDto.builder()
+                .age(customer.getAge())
+                .mobile(customer.getMobile())
+                .message("Customer Details Updated").build();
+    }
+
 }

@@ -29,16 +29,21 @@ public class CardController {
     }
 
 
-    //get all master card whose expiry date greater than 1st jan 2k25
 
+
+    //get all master card whose expiry date greater than given date
     @GetMapping("/getCardsWithExpiryDateGreaterThanGivenDate")
     public List<CardResponseDto> getCardsWithExpiryDateGreaterThanGivenDate(@RequestParam("expiryDate")
                                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date expiryDate){
         return cardService.getCardsWithExpiryDateGreaterThanGivenDate(expiryDate);
     }
 
-    //return card type which has maximum no of that card
 
+    //get all master card whose expiry date greater than 1st jan 2k25
+    @GetMapping("/masterCardsWithExpiryDate Greater than jan 1st 2k25")
+    public List<CardResponseDto> masterCards(){
+        return cardService.getMasterCards();
+    }
 
 
 }

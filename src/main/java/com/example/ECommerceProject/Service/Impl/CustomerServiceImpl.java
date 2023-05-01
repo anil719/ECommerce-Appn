@@ -1,7 +1,8 @@
 package com.example.ECommerceProject.Service.Impl;
 
 import com.example.ECommerceProject.Dto.Request.CustomerRequestDto;
-import com.example.ECommerceProject.Dto.Response.CustomerResponseDto;
+import com.example.ECommerceProject.Dto.Request.UpdateCustomerRequestDto;
+import com.example.ECommerceProject.Dto.Response.*;
 import com.example.ECommerceProject.Exceptions.MobileNoAlreadyPresent;
 import com.example.ECommerceProject.Models.Card;
 import com.example.ECommerceProject.Models.Cart;
@@ -45,19 +46,21 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerResponseDto> getAllCustomers() {
+    public List<CustomerResponseDTO2> getAllCustomers() {
 
         List<Customer> customers = customerRepository.findAll();
-        List<CustomerResponseDto> ans = new ArrayList<>();
+        List<CustomerResponseDTO2> ans = new ArrayList<>();
         for(Customer customer : customers){
-            CustomerResponseDto customerResponseDto = CustomerTransformer.customerToCustomerResponseDto(customer);
+            CustomerResponseDTO2 customerResponseDto = CustomerTransformer.customerToCustomerResponseDTO2(customer);
             ans.add(customerResponseDto);
         }
         return ans;
     }
 
+
+
     @Override
-    public CustomerResponseDto getCustomerByEmail(String email) throws Exception {
+    public CustomerResponseDTO2 getCustomerByEmail(String email) throws Exception {
         Customer customer;
         try{
             customer = customerRepository.findByEmail(email);
@@ -66,21 +69,62 @@ public class CustomerServiceImpl implements CustomerService {
             throw new Exception("Customer With This Email Id is not exist");
         }
 
-        return CustomerTransformer.customerToCustomerResponseDto(customer);
+        return CustomerTransformer.customerToCustomerResponseDTO2(customer);
     }
 
     @Override
-    public List<CustomerResponseDto> getCustomersWithVisaCard() {
+    public List<CustomerResponseDTO2> getCustomersWithVisaCard() {
         List<Card> cardList = cardRepository.findAll();
         List<Customer> customers = new ArrayList<>();
         for(Card card : cardList){
            if( card.getCardType() == CardType.VISA ) customers.add(card.getCustomer());
         }
-        List<CustomerResponseDto> customerResponseDtos = new ArrayList<>();
+        List<CustomerResponseDTO2> customerResponseDtos = new ArrayList<>();
         for(Customer customer : customers){
-            CustomerResponseDto customerResponseDto = CustomerTransformer.customerToCustomerResponseDto(customer);
+            CustomerResponseDTO2 customerResponseDto = CustomerTransformer.customerToCustomerResponseDTO2(customer);
             customerResponseDtos.add(customerResponseDto);
         }
         return customerResponseDtos;
+    }
+
+    @Override
+    public List<CustomerResponseDTO2> getCustomerWithGreaterAge(int age) {
+        List<Customer> customers = customerRepository.findAll();
+
+        List<CustomerResponseDTO2> ans = new ArrayList<>();
+        for(Customer customer : customers){
+            if(customer.getAge() > age) {
+                CustomerResponseDTO2 customerResponseDTO2 = CustomerTransformer.customerToCustomerResponseDTO2(customer);
+                ans.add(customerResponseDTO2);
+            }
+        }
+        return ans;
+    }
+
+    @Override
+    public DeleteCustomerResponseDto deleteByMobile(String mobile) throws Exception {
+
+        Customer customer;
+        try {
+            customer = customerRepository.findByMobile(mobile);
+            customerRepository.delete(customer);
+        }
+        catch(Exception e){
+            throw new Exception("Mobile Number is not present");
+        }
+       return CustomerTransformer.customerToDeleteCustomerResponseDto(customer);
+    }
+
+    @Override
+    public UpdateCustomerResponseDto updateByEmail(String email, UpdateCustomerRequestDto updateCustomerRequestDto) {
+
+        Customer customer = customerRepository.findByEmail(email);
+
+        customer.setAge(updateCustomerRequestDto.getAge());
+        customer.setMobile(updateCustomerRequestDto.getMobile());
+        Customer updated =  customerRepository.save(customer);
+        UpdateCustomerResponseDto updateCustomerResponseDto =  CustomerTransformer.customerToResponse(updated);
+        return updateCustomerResponseDto;
+
     }
 }

@@ -20,7 +20,6 @@ public class Customer {
 
     int id;
     String name;
-
     @Column(unique = true)
     String mobile ;
     int age;

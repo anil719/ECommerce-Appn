@@ -79,10 +79,6 @@ public class ProductController {
         return productService.getCostlyProducts();
     }
 
-    // return all out of stock products
-
-
-
 
     // return all available products
     @GetMapping("/getAvailable")

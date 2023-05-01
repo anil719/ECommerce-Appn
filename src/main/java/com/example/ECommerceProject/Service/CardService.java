@@ -15,4 +15,6 @@ public interface CardService {
     List<CardResponseDto> getAllVisaCards();
 
     List<CardResponseDto> getCardsWithExpiryDateGreaterThanGivenDate(Date expiryDate);
+
+    List<CardResponseDto> getMasterCards();
 }

@@ -67,4 +67,16 @@ public class CardServiceImpl implements CardService {
         return list;
     }
 
+    @Override
+    public List<CardResponseDto> getMasterCards() {
+        List<Card> cards = cardRepository.getMasterCardsWithExpiryDateGreaterThanJan1st2k25();
+        List<CardResponseDto> list = new ArrayList<>();
+        for(Card card : cards){
+            if(card.getCardType()== CardType.MASTERCARD) {
+                CardResponseDto cardResponseDto = CardTransformer.cardToCardResponseDto(card);
+                list.add(cardResponseDto);
+            }
+        }
+        return list;
+    }
 }

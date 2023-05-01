@@ -39,4 +39,13 @@ public class CartController {
     public OrderResponseDto checkOutCart(@RequestBody CheckOutCardRequestDto checkOutCardRequestDto) throws Exception {
        return cartService.checkOutCart(checkOutCardRequestDto);
     }
+
+    //remove from cart
+
+
+
+    //view all items in cart
+
+
+    //email sending
 }

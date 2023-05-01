@@ -19,4 +19,17 @@ public class OrderController {
     public OrderResponseDto placeDirectOrder(@RequestBody OrderRequestDto orderRequestDto) throws Exception {
         return orderService.placeOrder(orderRequestDto);
     }
+
+
+    //get All the orders for a customer
+
+
+
+    //get recent 5 orders
+
+
+    //delete an order from the order list
+
+
+    //select the order & also tell the customer name with the highest total value
 }
