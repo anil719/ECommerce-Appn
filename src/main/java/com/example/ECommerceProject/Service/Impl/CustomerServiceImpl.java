@@ -20,10 +20,8 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-
     @Autowired
     CardRepository cardRepository;
-
     @Autowired
     CustomerRepository customerRepository;
     @Override

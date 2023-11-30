@@ -2,7 +2,9 @@ package com.example.ECommerceProject.Controller;
 
 import com.example.ECommerceProject.Dto.Request.CheckOutCardRequestDto;
 import com.example.ECommerceProject.Dto.Request.ItemRequestDto;
+import com.example.ECommerceProject.Dto.Response.CartItemsResponseDto;
 import com.example.ECommerceProject.Dto.Response.CartResponseDto;
+import com.example.ECommerceProject.Dto.Response.DeleteCartResponseDto;
 import com.example.ECommerceProject.Dto.Response.OrderResponseDto;
 import com.example.ECommerceProject.Models.Item;
 import com.example.ECommerceProject.Service.CartService;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
@@ -40,12 +44,22 @@ public class CartController {
        return cartService.checkOutCart(checkOutCardRequestDto);
     }
 
-    //remove from cart
-
-
 
     //view all items in cart
+    @GetMapping("/itemsInCart")
+    public List<CartItemsResponseDto> itemsInCart(){
+        return cartService.getItemsInCart();
+    }
 
 
-    //email sending
-}
+
+
+    //remove from cart
+        @DeleteMapping("/delete")
+
+        public DeleteCartResponseDto deleteFromCart(@RequestParam("id")int id) throws Exception {
+            return cartService.deleteCart(id);
+        }
+
+    }
+

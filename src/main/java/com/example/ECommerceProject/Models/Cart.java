@@ -18,15 +18,12 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-
     int cartTotal;
-
     int noOfItems;
 
     @OneToOne
     @JoinColumn
     Customer customer;
-
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     List<Item> items = new ArrayList<>();

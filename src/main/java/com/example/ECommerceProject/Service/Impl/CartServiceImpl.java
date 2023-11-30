@@ -1,9 +1,7 @@
 package com.example.ECommerceProject.Service.Impl;
 
-import com.example.ECommerceProject.Dto.Response.OrderResponseDto;
+import com.example.ECommerceProject.Dto.Response.*;
 import com.example.ECommerceProject.Dto.Request.CheckOutCardRequestDto;
-import com.example.ECommerceProject.Dto.Response.CartResponseDto;
-import com.example.ECommerceProject.Dto.Response.ItemResponseDto;
 import com.example.ECommerceProject.Exceptions.InvalidCardException;
 import com.example.ECommerceProject.Exceptions.InvalidCustomerException;
 import com.example.ECommerceProject.Models.*;
@@ -124,6 +122,55 @@ public class CartServiceImpl implements CartService {
         cart.setNoOfItems(0);
         cart.setItems(new ArrayList<>());
     }
+
+
+
+    @Override
+    public List<CartItemsResponseDto> getItemsInCart() {
+        List<Customer> customers = customerRepository.findAll();
+
+        List<CartItemsResponseDto> cartItemsResponseDtoList = new ArrayList<>();
+        for(Customer customer : customers){
+            CartItemsResponseDto cartItemsResponseDto = new CartItemsResponseDto();
+            List<ItemResponseDto> itemResponseDtos = new ArrayList<>();
+            List<Item> items = customer.getCart().getItems();
+            for(Item item : items){
+                ItemResponseDto itemResponseDto = ItemTransformer.ItemToItemResponseDto(item);
+                itemResponseDtos.add(itemResponseDto);
+            }
+            cartItemsResponseDto.setCustomerName(customer.getName());
+            cartItemsResponseDto.setList(itemResponseDtos);
+            cartItemsResponseDtoList.add(cartItemsResponseDto);
+        }
+
+        return cartItemsResponseDtoList;
+    }
+
+    @Override
+    public DeleteCartResponseDto deleteCart(int id) throws Exception {
+
+        Cart cart = null;
+        try{
+            cart = cartRepository.findById(id).get();
+        }
+        catch (Exception e){
+            throw new Exception("Cart Id not valid");
+        }
+        cartRepository.delete(cart);
+        DeleteCartResponseDto deleteCartResponseDto = new DeleteCartResponseDto();
+        deleteCartResponseDto.setCartTotal(cart.getCartTotal());
+        deleteCartResponseDto.setCustomerName(cart.getCustomer().getName());
+        deleteCartResponseDto.setNoOfItems(cart.getNoOfItems());
+        List<Item> items = cart.getItems();
+        List<ItemResponseDto> list = new ArrayList<>();
+        for(Item item  : items){
+            ItemResponseDto itemResponseDto = ItemTransformer.ItemToItemResponseDto(item);
+            list.add(itemResponseDto);
+        }
+        deleteCartResponseDto.setItems(list);
+        return deleteCartResponseDto;
+    }
+
 
 
 }
